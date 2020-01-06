@@ -26,6 +26,20 @@ router.get('/:movie_id', (req, res, next) => {
     });
 });
 
+router.put('/:movie_id', (req, res, next) => {
+  const promise = Movie.findByIdAndUpdate(req.params.movie_id, req.body);
+  promise
+    .then(movie => {
+      if (!movie) {
+        next({ message: 'The movie was not found', code: 99 });
+      }
+      res.json(movie);
+    })
+    .catch(err => {
+      res.json(err);
+    });
+});
+
 const Movie = require('../models/Movie.js');
 router.post('/', (req, res, next) => {
   const movie = new Movie(req.body);
