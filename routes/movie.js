@@ -1,8 +1,22 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+
+const Movie = require('../models/Movie.js');
 
 router.get('/', (req, res) => {
-  const promise = Movie.find({});
+  const promise = Movie.aggregate([
+    {
+      $lookup: {
+        from: 'directors',
+        localField: 'director_id',
+        foreignField: '_id',
+        as: 'director'
+      }
+    },
+    {
+      $unwind: '$director'
+    }
+  ]);
   promise
     .then(data => {
       res.json(data);
@@ -69,7 +83,6 @@ router.put('/:movie_id', (req, res, next) => {
     });
 });
 
-const Movie = require('../models/Movie.js');
 router.post('/', (req, res, next) => {
   const movie = new Movie(req.body);
   const promise = movie.save();
