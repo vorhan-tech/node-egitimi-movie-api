@@ -1,3 +1,5 @@
+[![Build status](https://api.travis-ci.com/vorhan-tech/node-egitimi-movie-api.svg)](https://travis-ci.com/vorhan-tech/node-egitimi-movie-api)
+
 # node-egitimi-movie-api
 
 Node JS Eğitim Seti - Movie API
